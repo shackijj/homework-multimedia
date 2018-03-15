@@ -10,14 +10,24 @@ body {
     height: 480px;
     overflow: hidden;
     margin: auto;
+    position: relative;
+}
+
+
+.app__audio-canvas {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    z-index: 1;
 }
 
 .app__video {
     top: 0px;
     left: 0px;
     position: relative;
-    mix-blend-mode: multiply;
     filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(310deg) saturate(600%) contrast(0.8);
+    z-index: 0;
 }
 
 @keyframes glitch_1 {
