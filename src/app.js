@@ -24,7 +24,6 @@ function App (el) {
       };
       audioSource = audioCtx.createMediaStreamSource(stream);
       audioSource.connect(analyser);
-      analyser.connect(audioCtx.destination);
       analyser.fftSize = 2048;
       audioBufferLength = analyser.frequencyBinCount;
       audioDataArray = new Uint8Array(audioBufferLength);
