@@ -5,52 +5,52 @@ body {
     background-color: #000;
 }
 
-@keyframes color {
-    0% {
-        background-color: rgba(255, 0, 0, 1);
-    }
-    30% {
-        background-color: rgba(255, 0, 0, 0.9);
-    }
-    60% {
-        background-color: rgba(255, 0, 0, 0.8);
-    }
-    80% {
-        background-color: rgba(255, 0, 0, 0.85);
-    }
-    80% {
-        background-color: rgba(255, 0, 0, 0.9);
-    }
-}
-
 .app {
-    margin: auto;
     width: 640px;
     height: 480px;
-    animation: color infinite 5s;
-    background-color: rgba(255, 0, 0, 1);
     overflow: hidden;
+    margin: auto;
 }
 
 .app__video {
+    top: 0px;
+    left: 0px;
     position: relative;
     mix-blend-mode: multiply;
+    filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(310deg) saturate(600%) contrast(0.8);
 }
 
 @keyframes glitch_1 {
     0% {
-        filter: invert(0%);
-        transform: skewX(20deg);
+        transform: skew(0deg, 10deg);
     }
-    30% {
-        filter: invert(30%);
-        transform: skewX(10deg)
+    50% {
+        transform: skew(20deg, 60deg);
     }
-    90% {
-        filter: invert(10%);
-        transform: skewX(5deg)
+    100% {
+        transform: skewX(0deg, 0deg);
     }
 }
 .app__video_glitch_1 {
-    animation: glitch_1 .3s;
+    animation: glitch_1 .1s;
+}
+
+@keyframes glitch_2 {
+    0% {
+        left: -5px;
+    }
+    10% {
+        left: 5px;
+    }
+    30% {
+        top: 4px;
+        left: 0px;
+    }
+    60% {
+        top: -3px;
+    }
+}
+
+.app__video_glitch_2 {
+    animation: glitch_2 .2s;
 }

@@ -16,17 +16,18 @@ function App (el) {
       /* handle the error */
     });
 
-  function runGlitch1 () {
-    videoEl.classList.add('app__video_glitch_1');
+  function runGlitch (modifier) {
+    videoEl.classList.add('app__video_glitch_' + modifier);
     setTimeout(function () {
-      videoEl.classList.remove('app__video_glitch_1');
+      videoEl.classList.remove('app__video_glitch_' + modifier);
       setTimeout(function () {
-        runGlitch1();
-      }, 1000 + Math.floor(2000 * Math.random()));
+        runGlitch(modifier);
+      }, 1000 + Math.floor(6000 * Math.random()));
     }, 1000);
   }
 
-  runGlitch1();
+  runGlitch(1);
+  runGlitch(2);
 }
 
 App(document.querySelector('.app'));
