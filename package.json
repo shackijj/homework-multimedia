@@ -1,0 +1,24 @@
+{
+  "name": "homework-multimedia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "eslint-config-default": "^0.2.1"
+  },
+  "eslintConfig": {
+    "extends": "default",
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "semi": ["error", "always"]
+    }
+  }
+}
