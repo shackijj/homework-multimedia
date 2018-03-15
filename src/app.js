@@ -16,6 +16,17 @@ function App (el) {
       /* handle the error */
     });
 
+  function runGlitch1 () {
+    videoEl.classList.add('app__video_glitch_1');
+    setTimeout(function () {
+      videoEl.classList.remove('app__video_glitch_1');
+      setTimeout(function () {
+        runGlitch1();
+      }, 1000 + Math.floor(2000 * Math.random()));
+    }, 1000);
+  }
+
+  runGlitch1();
 }
 
 App(document.querySelector('.app'));

@@ -5,13 +5,52 @@ body {
     background-color: #000;
 }
 
+@keyframes color {
+    0% {
+        background-color: rgba(255, 0, 0, 1);
+    }
+    30% {
+        background-color: rgba(255, 0, 0, 0.9);
+    }
+    60% {
+        background-color: rgba(255, 0, 0, 0.8);
+    }
+    80% {
+        background-color: rgba(255, 0, 0, 0.85);
+    }
+    80% {
+        background-color: rgba(255, 0, 0, 0.9);
+    }
+}
+
 .app {
     margin: auto;
     width: 640px;
     height: 480px;
-    background-color: red;
+    animation: color infinite 5s;
+    background-color: rgba(255, 0, 0, 1);
+    overflow: hidden;
 }
 
 .app__video {
+    position: relative;
     mix-blend-mode: multiply;
+}
+
+@keyframes glitch_1 {
+    0% {
+        filter: invert(0%);
+        transform: skewX(20deg);
+    }
+    30% {
+        filter: invert(30%);
+        transform: skewX(10deg)
+    }
+    90% {
+        filter: invert(10%);
+        transform: skewX(5deg)
+    }
+}
+.app__video_glitch_1 {
+    animation: glitch_1 .3s;
 }
