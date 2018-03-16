@@ -1,66 +1,113 @@
+html {
+  font-family: sans-serif;
+}
+
 body {
-    display: flex;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #000;
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #000;
 }
 
 .app {
-    width: 640px;
-    height: 480px;
-    overflow: hidden;
-    margin: auto;
-    position: relative;
+  width: 640px;
+  height: 480px;
+  overflow: hidden;
+  margin: auto;
+  position: relative;
 }
 
+@keyframes load-text-animation {
+  0% {
+    font-size: 2em;
+  }
+
+  20% {
+    font-size: 2.2em;
+  }
+
+  50% {
+    font-size: 2.5em;
+  }
+
+  75% {
+    font-size: 2.2em;
+  }
+}
+
+.app__load {
+  width: 640px;
+  height: 480px;
+  font-size: 2em;
+  position: absolute;
+  background-color: #000;
+  color: rgba(255, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  animation: load-text-animation linear 2s infinite;
+}
+
+.app__load_closed {
+  display: none;
+}
 
 .app__audio-canvas {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    z-index: 1;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  z-index: 1;
 }
 
 .app__video {
-    top: 0px;
-    left: 0px;
-    position: relative;
-    filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(310deg) saturate(600%) contrast(0.8);
-    z-index: 0;
+  top: 0;
+  left: 0;
+  position: relative;
+  filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(310deg) saturate(600%) contrast(0.8);
+  z-index: 0;
 }
 
 @keyframes glitch_1 {
-    0% {
-        transform: skew(0deg, 10deg);
-    }
-    50% {
-        transform: skew(20deg, 60deg);
-    }
-    100% {
-        transform: skewX(0deg, 0deg);
-    }
+  0% {
+    transform: skew(0deg, 10deg);
+  }
+
+  50% {
+    transform: skew(20deg, 60deg);
+  }
+
+  100% {
+    transform: skewX(0deg, 0deg);
+  }
 }
+
 .app__video_glitch_1 {
-    animation: glitch_1 .1s;
+  animation: glitch_1 0.1s;
 }
 
 @keyframes glitch_2 {
-    0% {
-        left: -5px;
-    }
-    10% {
-        left: 5px;
-    }
-    30% {
-        top: 4px;
-        left: 0px;
-    }
-    60% {
-        top: -3px;
-    }
+  0% {
+    left: -5px;
+  }
+
+  10% {
+    left: 5px;
+  }
+
+  30% {
+    top: 4px;
+    left: 0;
+  }
+
+  60% {
+    top: -3px;
+  }
 }
 
 .app__video_glitch_2 {
-    animation: glitch_2 .2s;
+  animation: glitch_2 0.2s;
 }

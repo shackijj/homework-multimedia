@@ -1,5 +1,6 @@
 function App (el) {
   const videoEl = el.querySelector('.app__video');
+  const loaderEl = el.querySelector('.app__load');
   const audioCanvasEl = el.querySelector('.app__audio-canvas');
   const audioCanvasCtx = audioCanvasEl.getContext('2d');
 
@@ -24,9 +25,11 @@ function App (el) {
       };
       audioSource = audioCtx.createMediaStreamSource(stream);
       audioSource.connect(analyser);
-      analyser.fftSize = 2048;
+      analyser.fftSize = 256;
       audioBufferLength = analyser.frequencyBinCount;
       audioDataArray = new Uint8Array(audioBufferLength);
+
+      loaderEl.classList.add('app__load_closed');
       gameLoop();
     })
     .catch(function (err) {
@@ -36,19 +39,23 @@ function App (el) {
   function draw () {
     const WIDTH = audioCanvasEl.offsetWidth;
     const HEIGHT = audioCanvasEl.offsetHeight;
+    // https://webaudio.github.io/web-audio-api/#dom-analysernode-getbytefrequencydata
+    const maxDecibels = 255;
     analyser.getByteFrequencyData(audioDataArray);
+
     audioCanvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
     audioCanvasCtx.fillStyle = 'transparent';
     audioCanvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
     const barWidth = (WIDTH / audioBufferLength) * 2.5;
-    let barHeight;
     let x = 0;
 
     for(let i = 0; i < audioBufferLength; i++) {
-      barHeight = audioDataArray[i];
+      let db = audioDataArray[i];
+      let barHeight = HEIGHT * (db / maxDecibels);
+      let y = HEIGHT - barHeight;
       audioCanvasCtx.fillStyle = 'rgb(225,255,255)';
-      audioCanvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight);
+      audioCanvasCtx.fillRect(x, y, barWidth, barHeight);
 
       x += barWidth + 1;
     }

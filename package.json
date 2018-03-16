@@ -10,7 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "eslint": "^4.18.2",
-    "eslint-config-default": "^0.2.1"
+    "eslint-config-default": "^0.2.1",
+    "stylelint": "^9.1.3",
+    "stylelint-config-standard": "^18.2.0"
   },
   "eslintConfig": {
     "extends": "default",
@@ -18,7 +20,14 @@
       "browser": true
     },
     "rules": {
-      "semi": ["error", "always"]
+      "semi": [
+        "error",
+        "always"
+      ]
     }
-  }
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard"
+  },
+  "dependencies": {}
 }
