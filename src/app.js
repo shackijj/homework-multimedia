@@ -16,11 +16,10 @@ function App (el) {
   let audioBufferLength;
   let audioDataArray;
 
-  const comparissonWorker = new Worker('comparisson.js');
+  const movementDetectorWorker = new Worker('comparisson.js');
 
-  let lastMovementDetected;
-  comparissonWorker.onmessage = () => {
-    lastMovementDetected = Date.now();
+  movementDetectorWorker.onmessage = function () {
+    console.log('MovementDetected');
   };
 
   navigator.mediaDevices.getUserMedia(constraints)
@@ -73,7 +72,7 @@ function App (el) {
     canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
     canvasCtx.drawImage(videoEl, 0, 0);
 
-    comparissonWorker.postMessage(canvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
+    movementDetectorWorker.postMessage(canvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
 
     drawAudioAnalyzer();
   }
