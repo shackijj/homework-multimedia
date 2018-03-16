@@ -11,14 +11,21 @@
         <meta name="viewport" content="width=device-width, minimum-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
         <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.6/Rx.min.js"></script>
     </head>
     <body>
-        <div class="app">
+        <div class="app app_glitch_2">
             <div class="app__load"><span>Loading...</span></div>
             <canvas class="app__canvas" width="640" height="480"></canvas>
             <video class="app__video"></video>
         </div>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-filters">
+            <defs>
+              <filter id="distortion-filter">
+                <feTurbulence class="app__feTurbulence" type="fractalNoise" baseFrequency="0.00 0.00" numOctaves="1" result="warp"></feTurbulence>
+                <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
+              </filter>
+            </defs>
+          </svg>
         <link rel="stylesheet" href="style.css">
         <script src="app.js"></script>
         <!--[if lt IE 7]>

@@ -56,52 +56,48 @@ body {
 }
 
 .app__canvas {
-  position: relative;
-  z-index: 1;
-  filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(310deg) saturate(600%) contrast(0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
 .app__video {
-  display: none;
+  position: relative;
+  z-index: 1;
+  filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(310deg) saturate(600%) contrast(0.8);
+  width: 640px;
+  height: 480px;
 }
 
-@keyframes glitch_1 {
-  0% {
-    transform: skew(0deg, 10deg);
-  }
-
-  50% {
-    transform: skew(20deg, 60deg);
-  }
-
-  100% {
-    transform: skewX(0deg, 0deg);
-  }
-}
-
-.app__canvas_glitch_1 {
-  animation: glitch_1 0.1s;
+.app_glitch_1 {
+  filter: url("#distortion-filter");
 }
 
 @keyframes glitch_2 {
-  0% {
+  1% {
     left: -5px;
   }
 
-  10% {
+  2% {
     left: 5px;
   }
 
-  30% {
+  3% {
     top: 4px;
     left: 0;
   }
 
-  60% {
+  5% {
     top: -3px;
+  }
+
+  6% {
+    top: 0;
+    left: 0;
   }
 }
 
-.app__canvas_glitch_2 {
-  animation: glitch_2 0.2s;
+.app_glitch_2 {
+  animation: glitch_2 6s infinite;
 }

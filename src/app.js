@@ -3,7 +3,7 @@ function App (el) {
   const loaderEl = el.querySelector('.app__load');
   const canvasEl = el.querySelector('.app__canvas');
   const canvasCtx = canvasEl.getContext('2d');
-
+  const turbulence = document.querySelector('.app__feTurbulence');
   const constraints = {
     video: { width: 640, height: 480 },
     audio: true
@@ -70,9 +70,9 @@ function App (el) {
 
   function draw () {
     canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-    canvasCtx.drawImage(videoEl, 0, 0);
+    // canvasCtx.drawImage(videoEl, 0, 0);
 
-    movementDetectorWorker.postMessage(canvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
+    // movementDetectorWorker.postMessage(canvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
 
     drawAudioAnalyzer();
   }
@@ -82,19 +82,16 @@ function App (el) {
     window.requestAnimationFrame(gameLoop);
   }
 
-  /** Giltches */
-  function runGlitch (modifier) {
-    canvasEl.classList.add('app__canvas_glitch_' + modifier);
+  function runDistortionGlitchLoop () {
+    turbulence.setAttribute('baseFrequency', '0.00 ' + Math.random());
+    el.classList.add('app_glitch_1');
     setTimeout(function () {
-      canvasEl.classList.remove('app__canvas_glitch_' + modifier);
-      setTimeout(function () {
-        runGlitch(modifier);
-      }, 1000 + Math.floor(6000 * Math.random()));
-    }, 1000);
+      el.classList.remove('app_glitch_1');
+      setTimeout(runDistortionGlitchLoop, Math.random() * 5000 + 100);
+    }, 100);
   }
 
-  runGlitch(1);
-  runGlitch(2);
+  runDistortionGlitchLoop();
 }
 
 App(document.querySelector('.app'));
