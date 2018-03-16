@@ -1,5 +1,6 @@
 function App (el) {
   const videoEl = el.querySelector('.app__video');
+
   const loaderEl = el.querySelector('.app__load');
   const canvasEl = el.querySelector('.app__canvas');
   const movementDetectedEl = el.querySelector('.app__movement-detected');
@@ -32,25 +33,30 @@ function App (el) {
     }
   };
 
-  navigator.mediaDevices.getUserMedia(constraints)
-    .then(function (stream) {
-      videoEl.srcObject = stream;
-      videoEl.onloadedmetadata = function (e) {
-        videoEl.play();
-        videoEl.volume = 0;
-      };
-      audioSource = audioCtx.createMediaStreamSource(stream);
-      audioSource.connect(analyser);
-      analyser.fftSize = 256;
-      audioBufferLength = analyser.frequencyBinCount;
-      audioDataArray = new Uint8Array(audioBufferLength);
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then(function (stream) {
+        videoEl.srcObject = stream;
+        videoEl.onloadedmetadata = function (e) {
+          videoEl.play();
+          videoEl.volume = 0;
+        };
+        audioSource = audioCtx.createMediaStreamSource(stream);
+        audioSource.connect(analyser);
+        analyser.fftSize = 256;
+        audioBufferLength = analyser.frequencyBinCount;
+        audioDataArray = new Uint8Array(audioBufferLength);
 
-      loaderEl.classList.add('app__load_closed');
-      gameLoop();
-    })
-    .catch(function (err) {
-      /* handle the error */
-    });
+        loaderEl.classList.add('app__load_closed');
+        gameLoop();
+      })
+      .catch(function (err) {
+        /* handle the error */
+      });
+  } else {
+    loaderEl.innerHTML = 'Sorry, navigator.mediaDevices is not supported by your browser';
+    return;
+  }
 
   function drawAudioAnalyzer () {
     const maxDecibels = 255;
