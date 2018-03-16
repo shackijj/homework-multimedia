@@ -18,15 +18,15 @@
             <div class="app__movement-detected">Movement Detected!</div>
             <canvas class="app__canvas" width="640" height="480"></canvas>
             <video class="app__video"></video>
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-filters">
+                <defs>
+                    <filter id="distortion-filter">
+                    <feTurbulence class="app__feTurbulence" type="fractalNoise" baseFrequency="0.00 0.00" numOctaves="1" result="warp"></feTurbulence>
+                    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
+                    </filter>
+                </defs>
+            </svg>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-filters">
-            <defs>
-              <filter id="distortion-filter">
-                <feTurbulence class="app__feTurbulence" type="fractalNoise" baseFrequency="0.00 0.00" numOctaves="1" result="warp"></feTurbulence>
-                <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
-              </filter>
-            </defs>
-          </svg>
         <link rel="stylesheet" href="style.css">
         <script src="app.js"></script>
         <!--[if lt IE 7]>

@@ -4,7 +4,10 @@ html {
 
 body {
   display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
+  min-width: 100vh;
   margin: 0;
   background-color: #000;
 }
@@ -13,8 +16,6 @@ body {
   color: #fff;
   width: 640px;
   height: 480px;
-  overflow: hidden;
-  margin: auto;
   position: relative;
 }
 

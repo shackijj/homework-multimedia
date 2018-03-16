@@ -7,8 +7,8 @@ function App (el) {
 
   const analyserCanvas = document.createElement('canvas');
   const analyserCanvasCtx = analyserCanvas.getContext('2d');
+  const turbulence = el.querySelector('.app__feTurbulence');
 
-  const turbulence = document.querySelector('.app__feTurbulence');
   const constraints = {
     video: { width: 640, height: 480 },
     audio: true
@@ -24,7 +24,6 @@ function App (el) {
   const movementDetectorWorker = new Worker('movementDetector.js');
 
   movementDetectorWorker.onmessage = function () {
-    console.log('HERE');
     if (!movementDetectedEl.classList.contains('app__movement-detected_visible')) {
       movementDetectedEl.classList.add('app__movement-detected_visible');
       setTimeout(function () {
@@ -66,17 +65,29 @@ function App (el) {
 
     const barWidth = (width / audioBufferLength);
     let x = startX;
+    let y;
 
     canvasCtx.fillStyle = 'rgba(225,255,255,0.6)';
 
+    let maxDb = 0;
     for(let i = 0; i < audioBufferLength; i++) {
       let db = audioDataArray[i];
+      if (db > maxDb) {
+        maxDb = db;
+      }
       let barHeight = height * (db / maxDecibels);
-      let y = startY + height - barHeight;
+      y = startY + height - barHeight;
       canvasCtx.fillRect(x, y, barWidth, barHeight);
 
       x += barWidth;
     }
+
+    let volumeHeight = height * (maxDb / maxDecibels);
+    y = startY + height - volumeHeight;
+    if (maxDb > 200) {
+      canvasCtx.fillStyle = 'rgba(225,0,0,1)';
+    }
+    canvasCtx.fillRect(x + 10, y, 30, volumeHeight);
   }
 
   function draw () {
