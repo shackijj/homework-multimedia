@@ -10,6 +10,7 @@ body {
 }
 
 .app {
+  color: #fff;
   width: 640px;
   height: 480px;
   overflow: hidden;
@@ -49,6 +50,25 @@ body {
   align-items: center;
   justify-content: space-around;
   animation: load-text-animation linear 2s infinite;
+}
+
+.app__movement-detected {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 2;
+  visibility: hidden;
+}
+
+@keyframes blink {
+  0% { opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.app__movement-detected_visible {
+  visibility: visible;
+  animation: blink 0.3s infinite;
 }
 
 .app__load_closed {

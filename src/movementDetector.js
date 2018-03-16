@@ -1,3 +1,6 @@
+let prevImgData;
+const threshold = 3;
+
 function rmsDiff (img1, img2){
   let squares = 0;
   let iter1 = img1.data.data[Symbol.iterator]();
@@ -9,13 +12,12 @@ function rmsDiff (img1, img2){
   return Math.sqrt(squares / img1.data.data.length);
 }
 
-let prevImgData;
 onmessage = function (imageData) {
   let result = 0;
   if (prevImgData) {
     result = rmsDiff(prevImgData, imageData);
   }
-  if (result > 15) {
+  if (result > threshold) {
     postMessage('detected');
   }
   prevImgData = imageData;

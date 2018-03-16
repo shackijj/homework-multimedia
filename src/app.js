@@ -2,7 +2,12 @@ function App (el) {
   const videoEl = el.querySelector('.app__video');
   const loaderEl = el.querySelector('.app__load');
   const canvasEl = el.querySelector('.app__canvas');
+  const movementDetectedEl = el.querySelector('.app__movement-detected');
   const canvasCtx = canvasEl.getContext('2d');
+
+  const analyserCanvas = document.createElement('canvas');
+  const analyserCanvasCtx = analyserCanvas.getContext('2d');
+
   const turbulence = document.querySelector('.app__feTurbulence');
   const constraints = {
     video: { width: 640, height: 480 },
@@ -16,10 +21,16 @@ function App (el) {
   let audioBufferLength;
   let audioDataArray;
 
-  const movementDetectorWorker = new Worker('comparisson.js');
+  const movementDetectorWorker = new Worker('movementDetector.js');
 
   movementDetectorWorker.onmessage = function () {
-    console.log('MovementDetected');
+    console.log('HERE');
+    if (!movementDetectedEl.classList.contains('app__movement-detected_visible')) {
+      movementDetectedEl.classList.add('app__movement-detected_visible');
+      setTimeout(function () {
+        movementDetectedEl.classList.remove('app__movement-detected_visible');
+      }, 1000);
+    }
   };
 
   navigator.mediaDevices.getUserMedia(constraints)
@@ -70,9 +81,9 @@ function App (el) {
 
   function draw () {
     canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-    // canvasCtx.drawImage(videoEl, 0, 0);
 
-    // movementDetectorWorker.postMessage(canvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
+    analyserCanvasCtx.drawImage(videoEl, 0, 0);
+    movementDetectorWorker.postMessage(analyserCanvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
 
     drawAudioAnalyzer();
   }
