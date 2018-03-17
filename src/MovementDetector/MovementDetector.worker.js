@@ -28,8 +28,7 @@ onmessage = function (e) {
   if (prevImgData) {
     result = rootMeanSquareDifference(prevImgData, e.data);
   }
-  if (result > threshold) {
-    postMessage('detected');
-  }
+
+  postMessage({ result: result > threshold });
   prevImgData = e.data;
 };

@@ -1,3 +1,10 @@
+const AudioAnalyzer = require('./AudioAnalyzer/AudioAnalyzer');
+const ImageDataWidget = require('./ImageDataWidget/ImageDataWidget');
+const FaceTracker = require('./FaceTracker/FaceTracker');
+const MovementDetector = require('./MovementDetector/MovementDetector');
+
+require('./App.css');
+
 function wait (time) {
   return new Promise(function (resolve) {
     setTimeout(resolve, time);
@@ -11,7 +18,6 @@ function App (el) {
 
   const loaderEl = el.querySelector('.app__load');
   const canvasEl = el.querySelector('.app__audio-analyzer');
-  const movementDetectedEl = el.querySelector('.app__movement-detected');
 
   const analyserCanvas = document.createElement('canvas');
   analyserCanvas.setAttribute('class', 'app__analyzer-canvas');
@@ -24,13 +30,13 @@ function App (el) {
     video: { width, height },
     audio: true
   };
-
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const audioCtx = new AudioContext();
   const analyser = audioCtx.createAnalyser();
   analyser.fftSize = 256;
   const audioAnalyzer = new AudioAnalyzer(canvasEl, analyser);
   const imageDataWidget = new ImageDataWidget(el.querySelector('.app__image-data'));
+  const movementDetector = new MovementDetector(el.querySelector('.app__movement-detected'));
 
   let faceTracker;
   /**
@@ -39,17 +45,6 @@ function App (el) {
   if (window.location.search.indexOf('face_detection=1') !== -1) {
     faceTracker = new FaceTracker(el.querySelector('.app__face-tracker'), analyserCanvas);
   }
-
-  const movementDetectorWorker = new Worker('movementDetector.js');
-
-  movementDetectorWorker.onmessage = function () {
-    if (!movementDetectedEl.classList.contains('app__movement-detected_visible')) {
-      movementDetectedEl.classList.add('app__movement-detected_visible');
-      setTimeout(function () {
-        movementDetectedEl.classList.remove('app__movement-detected_visible');
-      }, 1000);
-    }
-  };
 
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia(constraints)
@@ -71,30 +66,6 @@ function App (el) {
   } else {
     loaderEl.innerHTML = 'Sorry, navigator.mediaDevices is not supported by your browser';
     return;
-  }
-
-  let frame = 0;
-  function gameLoop () {
-    analyserCanvasCtx.drawImage(videoEl, 0, 0);
-    const videoImageData = analyserCanvasCtx.getImageData(0, 0, width, height);
-
-    /**
-     * Send analytics on each 4th frame
-     */
-    if (frame % 4) {
-      movementDetectorWorker.postMessage(videoImageData);
-
-      if (faceTracker) {
-        faceTracker.track(videoImageData);
-      }
-    }
-
-    audioAnalyzer.draw();
-    window.requestAnimationFrame(gameLoop);
-    if (frame === 59) {
-      frame = 0;
-    }
-    frame++;
   }
 
   const turbulence = el.querySelector('.app__feTurbulence');
@@ -120,6 +91,29 @@ function App (el) {
     const data = analyserCanvasCtx.getImageData(0, 0, width, height);
     imageDataWidget.update(data);
   }, 2000);
+
+  let frame = 0;
+  function gameLoop () {
+    analyserCanvasCtx.drawImage(videoEl, 0, 0);
+    const videoImageData = analyserCanvasCtx.getImageData(0, 0, width, height);
+    /**
+     * Send analytics on each 4th frame
+     */
+    if (frame % 4) {
+      movementDetector.detect(videoImageData);
+
+      if (faceTracker) {
+        faceTracker.track(videoImageData);
+      }
+    }
+
+    audioAnalyzer.draw();
+    window.requestAnimationFrame(gameLoop);
+    if (frame === 59) {
+      frame = 0;
+    }
+    frame++;
+  }
 }
 
 App(document.querySelector('.app'));

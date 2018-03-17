@@ -44,3 +44,5 @@ AudioAnalyzer.prototype.draw = function () {
   }
   this.ctx.fillRect(x + volumeBarOffset, y, volumeBarWidth, volumeHeight);
 };
+
+module.exports = AudioAnalyzer;

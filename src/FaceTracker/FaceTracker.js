@@ -1,6 +1,8 @@
+const Worker = require('./FaceTracker.worker.js');
+
 function FaceTracker (el) {
   this.el = el;
-  this.worker = new Worker('FaceTrackerWorker.js');
+  this.worker = new Worker();
   this.isWorkerBusy = false;
   this.worker.addEventListener('message', this.onWorkerResponse.bind(this));
 }
@@ -21,7 +23,6 @@ FaceTracker.prototype.onWorkerResponse = function ({data: {data}}) {
 
   this.el.innerHTML = '';
   if (data.length === 0) {
-    console.log('Not found');
     // No objects were detected in this frame.
   } else {
     data.forEach(function plotRectangle (rect) {
@@ -38,3 +39,4 @@ FaceTracker.prototype.onWorkerResponse = function ({data: {data}}) {
   }
 };
 
+module.exports = FaceTracker;

@@ -6,3 +6,5 @@ function ImageDataWidget (el) {
 ImageDataWidget.prototype.update = function (imgData) {
   this.content.innerHTML = imgData.data.slice(0, 200).join(' ');
 };
+
+module.exports = ImageDataWidget;

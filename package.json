@@ -5,14 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode development",
+    "start": "webpack --watch --mode development",
     "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
     "eslint": "^4.18.2",
     "eslint-config-default": "^0.2.1",
-    "stylelint-config-standard": "^18.2.0"
+    "style-loader": "^0.20.3",
+    "stylelint-config-standard": "^18.2.0",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "worker-loader": "^1.1.1"
   },
   "eslintConfig": {
     "extends": "default",
