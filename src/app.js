@@ -19,6 +19,7 @@ function App (el) {
   const analyser = audioCtx.createAnalyser();
   analyser.fftSize = 256;
   const audioAnalyzer = new AudioAnalyzer(canvasEl, analyser);
+  const imageDataWidget = new ImageDataWidget(el.querySelector('.app__image-data'));
 
   const movementDetectorWorker = new Worker('movementDetector.js');
 
@@ -70,6 +71,11 @@ function App (el) {
   }
 
   runDistortionGlitchLoop();
+
+  setInterval(function () {
+    const data = analyserCanvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height);
+    imageDataWidget.update(data);
+  }, 2000);
 }
 
 App(document.querySelector('.app'));

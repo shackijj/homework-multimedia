@@ -13,7 +13,7 @@ body {
 }
 
 .app {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.6);
   width: 640px;
   height: 480px;
   position: relative;
@@ -59,6 +59,31 @@ body {
   right: 5px;
   z-index: 2;
   visibility: hidden;
+}
+
+.app__image-data {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 100px;
+  height: 200px;
+  text-align: center;
+  overflow: hidden;
+  z-index: 2;
+}
+
+@keyframes slide {
+  0% { top: -200%; }
+  100% { top: 200%; }
+}
+
+.image-data__content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 300%;
+  width: 100%;
+  animation: slide 10s linear infinite;
 }
 
 @keyframes blink {
