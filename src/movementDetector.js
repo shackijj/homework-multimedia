@@ -1,6 +1,12 @@
 let prevImgData;
 const threshold = 3;
 
+/**
+ * Root mean square difference
+ * @param {ImageData} img1
+ * @param {ImageData} img2
+ * @return {number}
+ */
 function rmsDiff (img1, img2){
   let squares = 0;
   let iter1 = img1.data.data[Symbol.iterator]();

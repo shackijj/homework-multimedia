@@ -76,10 +76,14 @@ body {
   display: none;
 }
 
-.app__canvas {
+.app__audio-analyzer {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 370px;
+  left: 5px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.6);
+  border-left-width: 1px;
+  border-bottom-width: 1px;
   z-index: 2;
 }
 

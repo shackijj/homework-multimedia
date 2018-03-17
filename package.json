@@ -4,15 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^4.18.2",
-    "eslint-config-default": "^0.2.1",
-    "stylelint": "^9.1.3",
-    "stylelint-config-standard": "^18.2.0"
+    "eslint-config-default": "^0.2.1"
   },
   "eslintConfig": {
     "extends": "default",
@@ -23,6 +22,9 @@
       "semi": [
         "error",
         "always"
+      ],
+      "no-unused-vars": [
+        "error"
       ]
     }
   },
