@@ -62,7 +62,7 @@ function App (el) {
   }
 
   function runDistortionGlitchLoop () {
-    turbulence.setAttribute('baseFrequency', '0.00 ' + Math.random());
+    turbulence.setAttribute('baseFrequency', Math.random());
     el.classList.add('app_glitch_1');
     setTimeout(function () {
       el.classList.remove('app_glitch_1');
