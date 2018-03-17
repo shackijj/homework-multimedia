@@ -56,18 +56,33 @@ function App (el) {
 
   function gameLoop () {
     analyserCanvasCtx.drawImage(videoEl, 0, 0);
-    movementDetectorWorker.postMessage(analyserCanvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
+
+    movementDetectorWorker.postMessage(
+      analyserCanvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
+
     audioAnalyzer.draw();
     window.requestAnimationFrame(gameLoop);
+  }
+
+  function wait (time) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, time);
+    });
   }
 
   function runDistortionGlitchLoop () {
     turbulence.setAttribute('baseFrequency', Math.random());
     el.classList.add('app_glitch_1');
-    setTimeout(function () {
-      el.classList.remove('app_glitch_1');
-      setTimeout(runDistortionGlitchLoop, Math.random() * 5000 + 100);
-    }, 100);
+    const animationDuration = 100;
+    const maxInterval = 5000;
+    wait(animationDuration)
+      .then(function () {
+        el.classList.remove('app_glitch_1');
+      })
+      .then(function () {
+        return wait(Math.random() * maxInterval + animationDuration);
+      })
+      .then(runDistortionGlitchLoop);
   }
 
   runDistortionGlitchLoop();
