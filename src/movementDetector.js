@@ -1,5 +1,5 @@
 let prevImgData;
-const threshold = 3;
+const threshold = 5;
 
 /**
  * @param {ImageData} img1
