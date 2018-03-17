@@ -1,3 +1,9 @@
+function wait (time) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, time);
+  });
+}
+
 function App (el) {
   const width = 640;
   const height = 480;
@@ -8,11 +14,11 @@ function App (el) {
   const movementDetectedEl = el.querySelector('.app__movement-detected');
 
   const analyserCanvas = document.createElement('canvas');
+  analyserCanvas.setAttribute('class', 'app__analyzer-canvas');
   analyserCanvas.setAttribute('width', width);
   analyserCanvas.setAttribute('height', height);
 
   const analyserCanvasCtx = analyserCanvas.getContext('2d');
-  const turbulence = el.querySelector('.app__feTurbulence');
 
   const constraints = {
     video: { width, height },
@@ -25,6 +31,14 @@ function App (el) {
   analyser.fftSize = 256;
   const audioAnalyzer = new AudioAnalyzer(canvasEl, analyser);
   const imageDataWidget = new ImageDataWidget(el.querySelector('.app__image-data'));
+
+  let faceTracker;
+  /**
+   * It's not a production solution. I just need a way to quickly disable the feature.
+   */
+  if (window.location.search.indexOf('face_detection=1') !== -1) {
+    faceTracker = new FaceTracker(el.querySelector('.app__face-tracker'), analyserCanvas);
+  }
 
   const movementDetectorWorker = new Worker('movementDetector.js');
 
@@ -51,29 +65,39 @@ function App (el) {
         loaderEl.classList.add('app__load_closed');
         gameLoop();
       })
-      .catch(function () {
-        /* handle the error */
+      .catch(function (error) {
+        loaderEl.innerHTML = error.message;
       });
   } else {
     loaderEl.innerHTML = 'Sorry, navigator.mediaDevices is not supported by your browser';
     return;
   }
 
+  let frame = 0;
   function gameLoop () {
     analyserCanvasCtx.drawImage(videoEl, 0, 0);
+    const videoImageData = analyserCanvasCtx.getImageData(0, 0, width, height);
 
-    movementDetectorWorker.postMessage(
-      analyserCanvasCtx.getImageData(0, 0, width, height));
+    /**
+     * Send analytics on each 4th frame
+     */
+    if (frame % 4) {
+      movementDetectorWorker.postMessage(videoImageData);
+
+      if (faceTracker) {
+        faceTracker.track(videoImageData);
+      }
+    }
 
     audioAnalyzer.draw();
     window.requestAnimationFrame(gameLoop);
+    if (frame === 59) {
+      frame = 0;
+    }
+    frame++;
   }
 
-  function wait (time) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, time);
-    });
-  }
+  const turbulence = el.querySelector('.app__feTurbulence');
 
   function runDistortionGlitchLoop () {
     turbulence.setAttribute('baseFrequency', Math.random());

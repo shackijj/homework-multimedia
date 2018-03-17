@@ -19,6 +19,7 @@
             <div class="app__image-data image-data">
                 <div class="image-data__content image-data__content_1"></div>
             </div>
+            <div class="app__face-tracker"></div>
             <canvas class="app__audio-analyzer" width="300" height="100"></canvas>
             <video class="app__video"></video>
             <svg height="0">
@@ -32,6 +33,9 @@
             </svg>
         </div>
         <link rel="stylesheet" href="style.css">
+        <script src="../node_modules/tracking/build/tracking.js"></script>
+        <script src="../node_modules/tracking/build/data/face.js"></script>
+        <script src="FaceTracker.js"></script>
         <script src="ImageDataWidget.js"></script>
         <script src="AudioAnalyzer.js"></script>
         <script src="app.js"></script>

@@ -11,7 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "eslint": "^4.18.2",
-    "eslint-config-default": "^0.2.1"
+    "eslint-config-default": "^0.2.1",
+    "stylelint-config-standard": "^18.2.0"
   },
   "eslintConfig": {
     "extends": "default",
@@ -31,5 +32,8 @@
   "stylelint": {
     "extends": "stylelint-config-standard"
   },
-  "dependencies": {}
+  "dependencies": {
+    "rxjs": "^5.5.7",
+    "tracking": "^1.1.3"
+  }
 }

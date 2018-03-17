@@ -86,6 +86,15 @@ body {
   animation: slide 10s linear infinite;
 }
 
+.app__face-tracker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  width: 640px;
+  height: 480px;
+}
+
 @keyframes blink {
   0% { opacity: 0; }
   50% { opacity: 0.5; }
