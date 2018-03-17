@@ -1,4 +1,6 @@
 function App (el) {
+  const width = 640;
+  const height = 480;
   const videoEl = el.querySelector('.app__video');
 
   const loaderEl = el.querySelector('.app__load');
@@ -6,11 +8,14 @@ function App (el) {
   const movementDetectedEl = el.querySelector('.app__movement-detected');
 
   const analyserCanvas = document.createElement('canvas');
+  analyserCanvas.setAttribute('width', width);
+  analyserCanvas.setAttribute('height', height);
+
   const analyserCanvasCtx = analyserCanvas.getContext('2d');
   const turbulence = el.querySelector('.app__feTurbulence');
 
   const constraints = {
-    video: { width: 640, height: 480 },
+    video: { width, height },
     audio: true
   };
 
@@ -58,7 +63,7 @@ function App (el) {
     analyserCanvasCtx.drawImage(videoEl, 0, 0);
 
     movementDetectorWorker.postMessage(
-      analyserCanvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height));
+      analyserCanvasCtx.getImageData(0, 0, width, height));
 
     audioAnalyzer.draw();
     window.requestAnimationFrame(gameLoop);
@@ -88,7 +93,7 @@ function App (el) {
   runDistortionGlitchLoop();
 
   setInterval(function () {
-    const data = analyserCanvasCtx.getImageData(0, 0, canvasEl.width, canvasEl.height);
+    const data = analyserCanvasCtx.getImageData(0, 0, width, height);
     imageDataWidget.update(data);
   }, 2000);
 }

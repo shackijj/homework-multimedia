@@ -2,29 +2,34 @@ let prevImgData;
 const threshold = 3;
 
 /**
- * Root mean square difference
  * @param {ImageData} img1
  * @param {ImageData} img2
  * @return {number}
  */
-function rmsDiff (img1, img2){
+function rootMeanSquareDifference (img1, img2){
   let squares = 0;
-  let iter1 = img1.data.data[Symbol.iterator]();
-  let iter2 = img2.data.data[Symbol.iterator]();
-  for(let val1 of iter1) {
-    let val2 = iter2.next().value;
-    squares += (val1 - val2) * (val1 - val2);
+  const maxPossibleValue = 255;
+  let length = img1.data.length;
+
+  if (length !== img2.data.length) {
+    return maxPossibleValue;
   }
-  return Math.sqrt(squares / img1.data.data.length);
+
+  for(let i = 0; i < length; i++) {
+    let val1 = img1.data[i];
+    let val2 = img2.data[i];
+    squares += Math.pow(val1 - val2, 2);
+  }
+  return Math.sqrt(squares / length);
 }
 
-onmessage = function (imageData) {
+onmessage = function (e) {
   let result = 0;
   if (prevImgData) {
-    result = rmsDiff(prevImgData, imageData);
+    result = rootMeanSquareDifference(prevImgData, e.data);
   }
   if (result > threshold) {
     postMessage('detected');
   }
-  prevImgData = imageData;
+  prevImgData = e.data;
 };
