@@ -95,11 +95,11 @@ function App (el) {
   let frame = 0;
   function gameLoop () {
     analyserCanvasCtx.drawImage(videoEl, 0, 0);
-    const videoImageData = analyserCanvasCtx.getImageData(0, 0, width, height);
     /**
      * Send analytics on each 4th frame
      */
     if (frame % 4) {
+      const videoImageData = analyserCanvasCtx.getImageData(0, 0, width, height);
       movementDetector.detect(videoImageData);
 
       if (faceTracker) {
