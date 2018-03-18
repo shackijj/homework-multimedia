@@ -28,7 +28,7 @@ FaceTracker.prototype.onWorkerResponse = function ({data: {data}}) {
   }
 };
 
-FaceTracker.prototype.drawFaceRect = function(rect) {
+FaceTracker.prototype.drawFaceRect = function (rect) {
   const div = document.createElement('div');
   div.style.position = 'absolute';
   div.style.border = '1px solid rgba(255, 255, 255, 0.6)';
@@ -37,6 +37,6 @@ FaceTracker.prototype.drawFaceRect = function(rect) {
   div.style.left = this.el.offsetLeft + rect.x + 'px';
   div.style.top = this.el.offsetTop + rect.y + 'px';
   this.el.appendChild(div);
-}
+};
 
 module.exports = FaceTracker;
