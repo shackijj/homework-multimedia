@@ -4,9 +4,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   entry: './src/App.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public/assets'),
     filename: 'bundle.js',
-    publicPath: '/dist/'
+    publicPath: '/assets/'
   },
   module: {
     rules: [
@@ -17,13 +17,12 @@ module.exports = {
       {
         test: /\.worker\.js$/,
         use: {
-          loader: 'worker-loader',
-          options: { name: '[name].js' }
+          loader: 'worker-loader'
         }
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist'])
+    new CleanWebpackPlugin(['public/assets'])
   ]
 };
